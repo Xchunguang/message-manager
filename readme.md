@@ -13,70 +13,72 @@
 - 启动调试流程：
   - 安装依赖：
     
-      cd message-manager
-      npm install
+        cd message-manager
+        npm install
       
   - 直接启动：
   
-      cd message-manager
-      react-native run-android
+        cd message-manager
+        react-native run-android
       
   - 调试java：
   
-      cd message-manager
-      npm start
-      
-      使用Android Studio打开message-manager/android 作为项目
-      点击debug 选择一个device
+        cd message-manager
+        npm start
+        
+        使用Android Studio打开message-manager/android 作为项目
+        点击debug 选择一个device
       
       
 - 打包流程
   - 进入jdk/bin目录执行命令生成密钥库文件：
     
-      keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
-      //需要输入密钥库和对应密码，设置发行信息。注意-alias后的记录别名。
+        keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+        //需要输入密钥库和对应密码，设置发行信息。注意-alias后的记录别名。
       
   - 把my-release-key.keystore文件放到你工程中的android/app文件夹下。
   - 编辑/message-manager/android/gradle.properties，添加如下内容：注意更改密钥库密码为自已生成的密钥库的密码
   
-      MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
-      MYAPP_RELEASE_KEY_ALIAS=my-key-alias
-      MYAPP_RELEASE_STORE_PASSWORD=*****
-      MYAPP_RELEASE_KEY_PASSWORD=*****
+        MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+        MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+        MYAPP_RELEASE_STORE_PASSWORD=*****
+        MYAPP_RELEASE_KEY_PASSWORD=*****
       
   - 编辑/message-manager/android/app/build.gradle，添加如下：
   
-      ...
-      android {
-          ...
-          defaultConfig { ... }
-          signingConfigs {
-              release {
-                  if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                      storeFile file(MYAPP_RELEASE_STORE_FILE)
-                      storePassword MYAPP_RELEASE_STORE_PASSWORD
-                      keyAlias MYAPP_RELEASE_KEY_ALIAS
-                      keyPassword MYAPP_RELEASE_KEY_PASSWORD
-                  }
-              }
-          }
-          buildTypes {
-              release {
-                  ...
-                  signingConfig signingConfigs.release
-              }
-          }
-      }
-      ...
+        ...
+        android {
+            ...
+            defaultConfig { ... }
+            signingConfigs {
+                release {
+                    if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                        storeFile file(MYAPP_RELEASE_STORE_FILE)
+                        storePassword MYAPP_RELEASE_STORE_PASSWORD
+                        keyAlias MYAPP_RELEASE_KEY_ALIAS
+                        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+                    }
+                }
+            }
+            buildTypes {
+                release {
+                    ...
+                    signingConfig signingConfigs.release
+                }
+            }
+        }
+        ...
       
   - 执行命令生成apk：
   
-      cd /message-manager/android
-      ./gradlew assembleRelease
-      //如果在window下可以去点./ ，即：gradlew assembleRelease
+        cd /message-manager/android
+        ./gradlew assembleRelease
+        //如果在window下可以去点./ ，即：gradlew assembleRelease
       
 - 使用流程
   - 授权
   - 设置发送邮箱。需要邮件设置smtp，只适配了qq邮箱与163邮箱
   - 设置接收邮箱
   - 取消省电策略等，保持程序持续运行。
+- 下载打包apk：
+  - <a href="https://pan.baidu.com/s/1sRtB5oJz1L17EbDtkAXrPA">百度网盘</a>
